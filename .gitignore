@@ -1,0 +1,6 @@
+__pycache__
+env
+.elasticbeanstalk
+.ebignore
+.env
+svm_pytorch.pkl
