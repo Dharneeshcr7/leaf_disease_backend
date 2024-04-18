@@ -45,3 +45,8 @@ virtualenv==20.25.3
 werkzeug==3.0.2
 wrapt==1.14.1
 zipp==3.18.1
+gunicorn
+torch==2.2.2+cpu
+torchaudio==2.2.2+cpu
+torchvision==0.17.2+cpu
+
