@@ -8,6 +8,7 @@ from model.predict import classify_image_urls
 from model_unet.segmenter import segment
 import os
 from dotenv import load_dotenv
+from kmeans import score
 load_dotenv()
 # Create an instance of the Flask class
 app = Flask(__name__)
@@ -41,6 +42,30 @@ def get_leaf_type():
     resp.set_cookie('leaf_type', leaf_type)
     return resp
 
+@app.route('/severity',methods=["POST"])
+def get_severity():
+    unique_folder=str(uuid.uuid4())
+    uploaded_files=[]
+    for key, file in request.files.items():
+        
+        if file.filename != '':
+            
+            file_name=secure_filename(file.filename)
+            
+            #s3.upload_fileobj(file,S3_BUCKET_NAME,s3_key,ExtraArgs={'ContentType': file.content_type})
+            upload_file_to_s3(file,file_name,unique_folder)
+            
+            uploaded_files.append(get_presigned_file_url(unique_folder, file_name))
+    
+    # Process uploaded images (for demonstration, just returning the count)
+    num_images = len(uploaded_files)
+    disease_level=score(uploaded_files)
+
+    return disease_level
+
+
+
+
 # Define another route and view function
 @app.route('/<type_leaf>',methods=["POST"])
 def classify_disease(type_leaf):
@@ -67,7 +92,7 @@ def classify_disease(type_leaf):
     delete_folder(S3_BUCKET_NAME,unique_folder)
     #print(predictions)
     
-    return jsonify({"leaves":leaves,"diseases": diseases,"severity":severity})
+    return jsonify({"leaves":leaves,"diseases": diseases,"area affected unet":severity[1],"severity level":severity[0]})
 
 # Run the application
 if __name__ == '__main__':

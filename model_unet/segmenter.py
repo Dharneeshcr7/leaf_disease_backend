@@ -1,7 +1,6 @@
 import tensorflow as tf
 from keras.models import Model
 from keras.layers import Input, Conv2D, MaxPooling2D, UpSampling2D, concatenate, Conv2DTranspose, BatchNormalization, Dropout, Lambda
-from matplotlib import pyplot as plt
 import numpy as np
 import urllib.request
 from keras.utils import normalize
@@ -112,7 +111,7 @@ def get_model():
 
 model = get_model()
 
-model.load_weights('model_unet\complete_modelwt.weights.h5')
+model.load_weights('model_unet/complete_modelwt.weights.h5')
 
 class_colors = {
     0: [0, 0, 255],  # Red for class 0
@@ -167,17 +166,17 @@ def segment(urls):
     #     for j in range(segments[0,:,:].shape[1]):
     #         color_image[i, j] = class_colors[segments[0,:,:][i, j]]
     # cv2.imwrite("segmented_image1.png", color_image)
-
+    
     if severity==0:
-        return 0
+        return [0,severity]
     elif severity<0.0420:
-        return 1
+        return [1,severity]
     elif severity>=0.0420 and severity<0.0830:
-        return 2
+        return [2,severity]
     elif severity>=0.0830 and severity<0.1380:
-        return 3
+        return [3,severity]
     else:
-        return 4
+        return [4,severity]
       
 
     # # print("Number of 0s:", count_0)
