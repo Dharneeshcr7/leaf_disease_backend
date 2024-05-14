@@ -1,5 +1,7 @@
 # leaf_disease_dection_pytorch
 
+Check demo_video.mp4 for app demo
+
 Api is written in Flask to get leaf disease and severity of disease given an image..
 
 For Dataset refer plant village dataset in kaggle:
