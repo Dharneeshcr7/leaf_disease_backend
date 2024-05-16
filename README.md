@@ -23,3 +23,6 @@ Overview of Severity estimation Model used(UNET based):
   2.Use pixel counting method to estimate severity of disease.
 
 
+  Code For Front end: https://github.com/Ayush72b/Leaf_disease_detection
+
+
